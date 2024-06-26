@@ -31,7 +31,7 @@ https://fluxcd.io/flux/installation/bootstrap/github/
 
 ```
 flux create secret git flux-system \
-    --url=ssh://git@github.com/driv/flux-image-updates \
+    --url=ssh://git@github.com/driv/flagger-progressive-delivery \
     --export > gotk-secret.yaml
 kubectl apply -f gotk-secret.yaml
 ```

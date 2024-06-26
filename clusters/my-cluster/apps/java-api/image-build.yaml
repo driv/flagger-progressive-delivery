@@ -14,6 +14,6 @@ spec:
   source:
     git:
       revision: apps
-      url: ssh://git@github.com/driv/flux-image-updates.git
+      url: ssh://git@github.com/driv/flagger-progressive-delivery.git
     subPath: java-apiserver
   tag: driv/buildpack-playground-java-api
