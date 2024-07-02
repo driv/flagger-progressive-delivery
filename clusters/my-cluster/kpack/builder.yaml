@@ -10,10 +10,8 @@ spec:
     - id: paketo-buildpacks/go
   - group:
     - id: paketo-buildpacks/java
-  # - group:
-  #   - id: paketo-buildpacks/dotnet-core
-  # - group:
-  #   - id: paketo-buildpacks/nodejs
+  - group:
+    - id: paketo-buildpacks/nodejs
   serviceAccountName: kpack-service-account
   stack:
     kind: ClusterStack
@@ -28,10 +26,9 @@ metadata:
   name: default
 spec:
   sources:
-  # - image: gcr.io/paketo-buildpacks/dotnet-core
   - image: gcr.io/paketo-buildpacks/go
   - image: gcr.io/paketo-buildpacks/java
-  # - image: gcr.io/paketo-buildpacks/nodejs
+  - image: gcr.io/paketo-buildpacks/nodejs
 ---
 apiVersion: kpack.io/v1alpha2
 kind: ClusterStack

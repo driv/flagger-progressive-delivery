@@ -1,0 +1,19 @@
+apiVersion: kpack.io/v1alpha2
+kind: Image
+metadata:
+  name: nodejs-frontend
+  namespace: kpack-builders
+spec:
+  builder:
+    kind: Builder
+    name: generic-builder
+  cache:
+    volume:
+      size: 2G
+  serviceAccountName: kpack-service-account
+  source:
+    git:
+      revision: apps
+      url: ssh://git@github.com/driv/flagger-progressive-delivery.git
+    subPath: frontend
+  tag: driv/buildpack-playground-nodejs-frontend
