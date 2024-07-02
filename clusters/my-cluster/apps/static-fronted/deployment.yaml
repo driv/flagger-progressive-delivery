@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fronted
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: fronted
+  template:
+    metadata:
+      labels:
+        app: fronted
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
