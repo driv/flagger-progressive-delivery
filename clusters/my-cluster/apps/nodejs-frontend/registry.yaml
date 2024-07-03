@@ -1,0 +1,24 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: buildpack-playground-nodejs-frontend
+  namespace: flux-system
+spec:
+  image: driv/buildpack-playground-nodejs-frontend
+  interval: 5m0s
+---
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: buildpack-playground-nodejs-frontend
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: buildpack-playground-nodejs-frontend
+  filterTags:
+    pattern: '^b(?P<buildnumber>\d+)\.(?P<date>\d+)\.(?P<time>\d+)$'
+    extract: "$date$time$buildnumber"
+  policy:
+    alphabetical:
+      order: asc
