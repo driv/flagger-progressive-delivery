@@ -15,7 +15,7 @@ git push
 # Cluster
 You can use any cluster you have available
 ```
-kind cluster create --name=kind-flagger
+kind create cluster --name=kind-flagger
 ```
 
 # FluxCD bootstrap
