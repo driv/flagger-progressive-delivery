@@ -27,7 +27,7 @@ metadata:
 spec:
   sources:
   - image: gcr.io/paketo-buildpacks/go
-  - image: gcr.io/paketo-buildpacks/java
+  - image: gcr.io/paketo-buildpacks/java:15.0.0
   - image: gcr.io/paketo-buildpacks/nodejs
 ---
 apiVersion: kpack.io/v1alpha2
