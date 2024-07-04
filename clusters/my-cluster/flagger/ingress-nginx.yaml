@@ -20,3 +20,10 @@ spec:
     name: ingress-nginx
   valuesFiles:
   - ingress-nginx-values.yaml
+  values:
+    controller:
+      metrics:
+        enabled: true
+      podAnnotations:
+        "prometheus.io/scrape": true
+        "prometheus.io/port": 10254
