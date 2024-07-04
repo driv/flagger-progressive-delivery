@@ -8,18 +8,19 @@ spec:
   url: https://kubernetes.github.io/ingress-nginx
 ---
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmChart
+kind: HelmRelease
 metadata:
   name: ingress-nginx
   namespace: default
 spec:
+  release-name: ingress-nginx
   interval: 1h
-  chart: ingress-nginx
-  sourceRef:
-    kind: HelmRepository
-    name: ingress-nginx
-  valuesFiles:
-  - ingress-nginx-values.yaml
+  chart:
+    interval: 10m
+    chart: ingress-nginx
+    sourceRef:
+      kind: HelmRepository
+      name: ingress-nginx
   values:
     controller:
       metrics:
