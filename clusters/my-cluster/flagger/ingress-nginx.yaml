@@ -16,11 +16,12 @@ spec:
   release-name: ingress-nginx
   interval: 1h
   chart:
-    interval: 10m
-    chart: ingress-nginx
-    sourceRef:
-      kind: HelmRepository
-      name: ingress-nginx
+    spec:
+      interval: 10m
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
   values:
     controller:
       metrics:
