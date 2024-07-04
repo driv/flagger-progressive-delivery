@@ -14,7 +14,7 @@ metadata:
   namespace: default
 spec:
   releaseName: ingress-nginx
-  interval: 1h
+  interval: 15m
   chart:
     spec:
       interval: 10m
