@@ -13,7 +13,7 @@ metadata:
   name: ingress-nginx
   namespace: default
 spec:
-  release-name: ingress-nginx
+  releaseName: ingress-nginx
   interval: 1h
   chart:
     spec:
