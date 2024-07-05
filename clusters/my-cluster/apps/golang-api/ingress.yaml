@@ -9,6 +9,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
+    # http://api.172-18-0-3.nip.io
     - host: "api.172-18-0-3.nip.io"
       http:
         paths:
@@ -16,7 +17,7 @@ spec:
             path: "/"
             backend:
               service:
-                name: api
+                name: golang-api
                 port:
                   number: 80
 ---
