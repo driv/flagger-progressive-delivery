@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: nodejs-frontend
   namespace: default
 spec:
   selector:
     matchLabels:
-      app: frontend
+      app: nodejs-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: nodejs-frontend
     spec:
       containers:
         - name: nodejs
