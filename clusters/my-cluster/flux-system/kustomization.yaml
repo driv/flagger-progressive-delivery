@@ -4,4 +4,4 @@ resources:
 - https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
 - gotk-sync.yaml
 - flux-system-automation.yaml
-- capacitory.yaml
+- capacitor.yaml
