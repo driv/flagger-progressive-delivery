@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: golang-api
+  name: nodejs-frontend
   namespace: default
 spec:
   selector:
