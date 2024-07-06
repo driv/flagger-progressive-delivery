@@ -20,6 +20,13 @@ spec:
                 name: nodejs-frontend
                 port:
                   number: 80
+          - pathType: Prefix
+            path: "/api"
+            backend:
+              service:
+                name: golang-api
+                port:
+                  number: 80
 ---
 apiVersion: v1
 kind: Service

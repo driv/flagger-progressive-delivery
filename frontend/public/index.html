@@ -91,7 +91,7 @@
         }
 
         function fetchNextNumber(number) {
-            const apiUrl = `http://api.172-18-0-3.nip.io/next-number?number=${number}`;
+            const apiUrl = `/api/next-number?number=${number}`;
 
             fetch(apiUrl)
                 .then(response => {
