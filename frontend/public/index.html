@@ -72,6 +72,11 @@
             color: red;
         }
 
+        .toggle {
+            margin-bottom: 1em;
+            font-size: 1.2em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -79,22 +84,27 @@
         <h1>Random Number Generator</h1>
         <p id="randomNumber">Click the button to generate a random number.</p>
         <button onclick="generateRandomNumber()">Generate Random Number</button>
+        <div class="toggle">
+            <label>
+                <input type="checkbox" id="continuousToggle" onclick="toggleContinuousGeneration()"> Continuous Generation
+            </label>
+        </div>
         <div class="log" id="logContainer"></div>
     </div>
     <script>
+        let continuousGeneration = false;
+        let generationInterval;
+
         function generateRandomNumber() {
             const randomNumber = Math.floor(Math.random() * 100) + 1;
             document.getElementById('randomNumber').innerText = `Random Number: ${randomNumber}`;
-            //document.getElementById('errorMessage').innerText = ''; // Clear previous error message
             logMessage(`Generated Random Number: ${randomNumber}`);
             fetchNextNumber(randomNumber);
             logMessage(`---`)
         }
 
         function fetchNextNumber(number) {
-            const apiUrl = `/next-number?number=${number}`;
-
-            fetch(apiUrl)
+            fetch(`/next-number?number=${number}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok ' + response.statusText);
@@ -119,7 +129,15 @@
             logContainer.appendChild(logEntry);
             logContainer.scrollTop = logContainer.scrollHeight;
         }
+
+        function toggleContinuousGeneration() {
+            continuousGeneration = !continuousGeneration;
+            if (continuousGeneration) {
+                generationInterval = setInterval(generateRandomNumber, 2000);
+            } else {
+                clearInterval(generationInterval);
+            }
+        }
     </script>
 </body>
 </html>
-
