@@ -1,8 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: number-generator
+  name: nodejs-frontend
   namespace: default
+  labels:
+    app: nodejs-frontend
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
