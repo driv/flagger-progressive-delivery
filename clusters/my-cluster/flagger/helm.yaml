@@ -58,3 +58,19 @@ spec:
     prometheus:
       install: true
     meshProvider: nginx
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: flagger-loadtester
+  namespace: test
+spec:
+  releaseName: flagger
+  interval: 15m
+  chart:
+    spec:
+      interval: 10m
+      chart: loadtester
+      sourceRef:
+        kind: HelmRepository
+        name: flagger
