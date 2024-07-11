@@ -38,7 +38,7 @@ spec:
         timeout: 30s
         metadata:
           type: bash
-          cmd: "curl -sd 'test' http://golang-api-canary/status | grep OK"
+          cmd: "curl -f http://golang-api-canary/status"
       - name: load-test
         url: http://flagger-loadtester.test/
         timeout: 5s
