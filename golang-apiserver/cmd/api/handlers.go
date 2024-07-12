@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -14,11 +13,9 @@ func (app *application) status(w http.ResponseWriter, r *http.Request) {
 		"Status": "OK",
 	}
 
-	err := response.JSON(w, http.StatusOK, data)
+	err := response.JSON(w, http.StatusInternalServerError, data)
 	if err != nil {
 		app.serverError(w, r, err)
-	} else {
-		app.serverError(w, r, errors.New("fake error"))
 	}
 }
 
