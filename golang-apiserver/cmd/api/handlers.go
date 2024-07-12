@@ -1,9 +1,7 @@
 package main
 
 import (
-	"math/rand"
 	"net/http"
-	"strconv"
 
 	"golang-apiserver/internal/response"
 )
@@ -21,7 +19,7 @@ func (app *application) status(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
 	data := map[string]string{
-		"nextNumber": strconv.Itoa(rand.Intn(100)),
+		"nextNumber": "50",
 	}
 
 	err := response.JSON(w, http.StatusOK, data)
