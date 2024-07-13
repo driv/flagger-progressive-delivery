@@ -31,6 +31,12 @@ spec:
         min: 99
       interval: 1m
 #     # testing (optional)
+    - name: request-duration
+      interval: 1m
+      # maximum req duration P99
+      # milliseconds
+      thresholdRange:
+        max: 5
     webhooks:
       - name: acceptance-test
         type: pre-rollout
