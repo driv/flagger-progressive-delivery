@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"golang-apiserver/internal/response"
 )
@@ -18,11 +19,26 @@ func (app *application) status(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
-	data := map[string]string{
-		"nextNumber": "50",
+	numberStr := r.URL.Query().Get("number")
+	if numberStr == "" {
+		http.Error(w, "Missing 'number' query parameter", http.StatusBadRequest)
+		return
 	}
 
-	err := response.JSON(w, http.StatusOK, data)
+	number, err := strconv.Atoi(numberStr)
+	if err != nil {
+		http.Error(w, "Invalid 'number' query parameter", http.StatusBadRequest)
+		return
+	}
+
+	// Example logic to generate the next number
+	nextNumber := number + 1
+
+	data := map[string]int{
+		"nextNumber": nextNumber,
+	}
+
+	err = response.JSON(w, http.StatusOK, data)
 	if err != nil {
 		app.serverError(w, r, err)
 	}
