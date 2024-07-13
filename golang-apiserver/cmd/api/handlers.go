@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"golang-apiserver/internal/number"
 	"golang-apiserver/internal/response"
 )
 
@@ -25,14 +26,14 @@ func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	number, err := strconv.Atoi(numberStr)
+	numberValue, err := strconv.Atoi(numberStr)
 	if err != nil {
 		http.Error(w, "Invalid 'number' query parameter", http.StatusBadRequest)
 		return
 	}
 
 	// Example logic to generate the next number
-	nextNumber := number + 1
+	nextNumber := number.Next(numberValue)
 
 	data := map[string]int{
 		"nextNumber": nextNumber,
