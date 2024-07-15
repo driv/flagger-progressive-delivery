@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nodejs
-          image: driv/buildpack-playground-nodejs-frontend:b22.20240714.201835 # {"$imagepolicy": "flux-system:buildpack-playground-nodejs-frontend"}
+          image: driv/buildpack-playground-nodejs-frontend:b23.20240715.202542 # {"$imagepolicy": "flux-system:buildpack-playground-nodejs-frontend"}
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
