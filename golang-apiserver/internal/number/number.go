@@ -1,5 +1,7 @@
 package number
 
+import "time"
+
 // Next takes a number as input and returns the next number.
 // You can replace this logic with your own as needed.
 func Next(current int) int {
@@ -11,4 +13,8 @@ func Fibonacci(n int) int {
 		return n
 	}
 	return Fibonacci(n-1) + Fibonacci(n-2)
+}
+func Sleep(n int) int {
+	time.Sleep(2000000)
+	return n
 }
