@@ -32,7 +32,7 @@ func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	nextNumber := number.Next(numberValue)
+	nextNumber := number.Fibonacci(numberValue)
 
 	data := map[string]int{
 		"nextNumber": nextNumber,
