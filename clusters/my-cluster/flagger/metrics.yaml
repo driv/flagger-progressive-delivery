@@ -16,8 +16,8 @@ spec:
             canary!=""
           }[{{ interval }}]
         )
-      ) 
-      / 
+      )
+      /
       sum(
         rate(
           nginx_ingress_controller_response_duration_seconds_sum{
@@ -26,5 +26,5 @@ spec:
             canary!=""
           }[{{ interval }}]
         )
-      ) 
+      )
       * 1000

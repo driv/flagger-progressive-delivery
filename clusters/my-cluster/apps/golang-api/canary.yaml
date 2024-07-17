@@ -29,6 +29,9 @@ spec:
         min: 99
       interval: 1m
     - name: response-duration
+      templateRef:
+        name: response-duration
+        namespace: default
       interval: 1m
       thresholdRange:
         max: 5
