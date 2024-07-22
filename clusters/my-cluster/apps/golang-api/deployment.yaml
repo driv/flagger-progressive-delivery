@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: golang-api
-          image: driv/buildpack-playground-golang-api:b30.20240719.163901 # {"$imagepolicy": "flux-system:buildpack-playground-golang-api"}
+          image: driv/buildpack-playground-golang-api:b31.20240722.044702 # {"$imagepolicy": "flux-system:buildpack-playground-golang-api"}
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
