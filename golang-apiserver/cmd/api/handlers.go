@@ -33,8 +33,8 @@ func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("Generating n+1...")
-	nextNumber := number.Next(numberValue)
+	log.Println("Generating Fibonacci...")
+	nextNumber := number.Fibonacci(numberValue)
 
 	data := map[string]int{
 		"nextNumber": nextNumber,
