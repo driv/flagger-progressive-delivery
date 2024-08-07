@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -32,6 +33,7 @@ func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("Sleeping...")
 	nextNumber := number.Sleep(numberValue)
 
 	data := map[string]int{

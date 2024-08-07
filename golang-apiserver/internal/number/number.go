@@ -2,8 +2,6 @@ package number
 
 import "time"
 
-// Next takes a number as input and returns the next number.
-// You can replace this logic with your own as needed.
 func Next(current int) int {
 	return current + 1
 }
@@ -17,10 +15,9 @@ func Fibonacci(n int) int {
 		prev, curr = curr, prev+curr
 	}
 	return curr
-	// return Fibonacci(n-1) + Fibonacci(n-2)
 }
 
-func SlowFibonacci(n int) int {
+func BadFibonacci(n int) int {
 	if n <= 1 {
 		return n
 	}
