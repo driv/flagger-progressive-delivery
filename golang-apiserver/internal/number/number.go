@@ -21,7 +21,7 @@ func BadFibonacci(n int) int {
 	if n <= 1 {
 		return n
 	}
-	return Fibonacci(n-1) + Fibonacci(n-2)
+	return BadFibonacci(n-1) + BadFibonacci(n-2)
 }
 
 func Sleep(n int) int {
