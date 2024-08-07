@@ -33,8 +33,8 @@ func (app *application) nextNumber(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("Sleeping...")
-	nextNumber := number.Sleep(numberValue)
+	log.Println("Generating n+1...")
+	nextNumber := number.Next(numberValue)
 
 	data := map[string]int{
 		"nextNumber": nextNumber,
