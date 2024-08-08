@@ -3,6 +3,8 @@ kind: Canary
 metadata:
   name: golang-api
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   provider: nginx
   targetRef:
