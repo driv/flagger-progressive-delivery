@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: golang-api
   namespace: default
-  annotations:
-    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   selector:
     matchLabels:
