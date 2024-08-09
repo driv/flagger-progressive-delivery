@@ -1,83 +1,65 @@
-Since FluxCD pushes updates to the repo you need to fork this repo and modify a few things before getting started.
+This repo is an example for the [blog post]() //TODO Add link
 
-### Fix users
-```
-export GIT_USER=<git_username>
-export DOCKER_USER=<dockerhub_username>
-
-grep -l -r '/driv/' | xargs -L1 sed -i "s,/driv/,/$GIT_USER/,g"
-grep -l -r ' driv/' | xargs -L1 sed -i "s, driv/, $DOCKER_USER/,g"
-git add -u
-git commit -m "update users"
-git push
-```
+### Requirements
+- docker
+- kind
+- kubectl
+- [cloud-provider-kind](https://github.com/kubernetes-sigs/cloud-provider-kind?tab=readme-ov-file#install)
 
 # Cluster
 You can use any cluster you have available
 ```
-kind create cluster --name=kind-flagger
+kind create cluster --name=kind-progressive-delivery
 ```
 
 # FluxCD bootstrap
 ```
 kubectl apply -k clusters/my-cluster/flux-system
 ```
-## Automated cluster bootstrap
-It requires having and providing flux with admin access to your organization.
 
-https://fluxcd.io/flux/installation/bootstrap/github/
+# External IP.
 
-## Cluster manual bootstrap
-
+The `nginx-ingress` installation creates a `LoadBalancer`. For this `LoadBalancer` to be accessible, we need to assign it an external IP. This is where `cloud-provider-kind` comes in.
 ```
-flux create secret git flux-system \
-    --url=ssh://git@github.com/driv/flagger-progressive-delivery \
-    --export > gotk-secret.yaml
-kubectl apply -f gotk-secret.yaml
+# Run the command in a separate terminal and leave it running
+./cloud-provider-kind
 ```
 
-Use the `identity.pub` public key from the secret as a deployment key with write access for your repo. Do not push the secret to git.
-
-# Kpack secrets
-Dockerhub and GitHub access is needed.
-
-Create a token with read/write access. https://hub.docker.com/settings/security
-
-Replace `<username>` with your DockerHub username and `<token>` with your generated token, and apply the secret. Do not push the secret to git.
+Once `cloud-provider-kind` is running, we can configure our `Canary` and `Ingress`.
 
 ```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: registry-credentials
-  namespace: kpack-builders
-  annotations:
-    kpack.io/docker: https://index.docker.io/v1/
-type: kubernetes.io/basic-auth
-stringData:
-  username: <username>
-  password: <token>
+EXTERNAL_IP=$(kubectl get service -n ingress-nginx ingress-nginx-controller -o jsonpath='{ .status.loadBalancer.ingress[0].ip }' | sed 's/\./-/g' );
+echo $EXTERNAL_IP
+kubectl -n default get canary golang-api -o yaml | sed "s/172-18-0-3/$EXTERNAL_IP/g" | kubectl replace -f -;
+kubectl -n default get ingress number-generator -o yaml | sed "s/172-18-0-3/$EXTERNAL_IP/g" | kubectl replace -f -;
+```
+# Frontend
+```
+echo "Visit https://www.$EXTERNAL_IP.nip.io/"
+```
+Click on the link and access the frontend (The browser will complain about the ssl certificate).
+
+# Update the backend
+
+Now it's time to play with Flagger.
+
+There are 4 image tags available.
+
+- `next`: It generates n+1 number, it's the one currently running.
+- `sleep`: Same as next but it'll sleep for 2 seconds before returning the result. It'll fail the release.
+- `bad_fibonacci`: It returns the nth number from the series. It's an extremely inefficient implementation. It'll fail the release, but only if "real" traffic from the UI is coming in, the [load test](https://github.com/driv/flagger-progressive-delivery/blob/main/clusters/my-cluster/apps/golang-api/canary.yaml#L55) will not detect how slow it is with big numbers.
+- `good_fibonacci`: It returns the nth number from the series. With numbers up to 100 it can keep the response time within the limits of the [analysis](https://github.com/driv/flagger-progressive-delivery/blob/main/clusters/my-cluster/apps/golang-api/canary.yaml#L33).
+
+Update the deployment image:
+```
+kubectl -n default set image deployment/golang-api golang-api=driv/buildpack-playground-golang-api:<image_tag>
 ```
 
-For `git-credentials` You can use the private key from `gotk-secret.yaml` or create a new one (it only needs read access).
+Check the release progress in the Flagger logs:
 ```
-apiVersion: v1
-kind: Secret
-metadata:
-  name: git-credentials
-  namespace: kpack-builders
-  annotations:
-    kpack.io/git: git@github.com
-type: kubernetes.io/ssh-auth
-stringData:
-  ssh-privatekey: |
-    -----BEGIN PRIVATE KEY-----
-    <your private key>
-    -----END PRIVATE KEY-----
+kubectl logs -n ingress-nginx --selector app.kubernetes.io/instance=flagger -f
 ```
-
-# Update the applications.
-
-Both applications have an `Image` which is using the `apps` branch to track changes. FluxCD commits into the main branch and it creates an infinite loop of build and deployments.
-
-Any change on the `apps` branch will trigger a build and a re-deploy.
+Or the Kubernetes events:
+```
+kubectl -n default get events --watch
+```
