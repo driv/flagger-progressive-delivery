@@ -14,8 +14,9 @@ kind create cluster --name=kind-progressive-delivery
 
 # FluxCD bootstrap
 ```
-kubectl apply -k clusters/my-cluster/flux-system
+kubectl apply -k https://github.com/driv/flagger-progressive-delivery/clusters/my-cluster/infrastructure/flux-system
 ```
+
 
 # External IP.
 
