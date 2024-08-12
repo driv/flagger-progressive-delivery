@@ -17,7 +17,6 @@ kind create cluster --name=kind-progressive-delivery
 kubectl apply -k https://github.com/driv/flagger-progressive-delivery/clusters/my-cluster/infrastructure/flux-system
 ```
 
-
 # External IP.
 
 The `nginx-ingress` installation creates a `LoadBalancer`. For this `LoadBalancer` to be accessible, we need to assign it an external IP. This is where `cloud-provider-kind` comes in.
@@ -29,10 +28,10 @@ The `nginx-ingress` installation creates a `LoadBalancer`. For this `LoadBalance
 Once `cloud-provider-kind` is running, we can configure our `Canary` and `Ingress`.
 
 ```
-EXTERNAL_IP=$(kubectl get service -n ingress-nginx ingress-nginx-controller -o jsonpath='{ .status.loadBalancer.ingress[0].ip }' | sed 's/\./-/g' );
-echo $EXTERNAL_IP
-kubectl -n default get canary golang-api -o yaml | sed "s/172-18-0-3/$EXTERNAL_IP/g" | kubectl replace -f -;
-kubectl -n default get ingress number-generator -o yaml | sed "s/172-18-0-3/$EXTERNAL_IP/g" | kubectl replace -f -;
+EXTERNAL_IP=$(kubectl get service -n ingress-nginx ingress-nginx-controller -o jsonpath='{ .status.loadBalancer.ingress[0].ip }' | sed 's/\./-/g' ) &&
+echo $EXTERNAL_IP &&
+kubectl -n default get canary golang-api -o yaml | sed "s/172-18-0-3/$EXTERNAL_IP/g" | kubectl replace -f - &&
+kubectl -n default get ingress number-generator -o yaml | sed "s/172-18-0-3/$EXTERNAL_IP/g" | kubectl replace -f - ;
 ```
 # Frontend
 ```
@@ -48,8 +47,8 @@ There are 4 image tags available.
 
 - `next`: It generates n+1 number, it's the one currently running.
 - `sleep`: Same as next but it'll sleep for 2 seconds before returning the result. It'll fail the release.
-- `bad_fibonacci`: It returns the nth number from the series. It's an extremely inefficient implementation. It'll fail the release, but only if "real" traffic from the UI is coming in, the [load test](https://github.com/driv/flagger-progressive-delivery/blob/main/clusters/my-cluster/apps/golang-api/canary.yaml#L55) will not detect how slow it is with big numbers.
 - `good_fibonacci`: It returns the nth number from the series. With numbers up to 100 it can keep the response time within the limits of the [analysis](https://github.com/driv/flagger-progressive-delivery/blob/main/clusters/my-cluster/apps/golang-api/canary.yaml#L33).
+- `bad_fibonacci`: It returns the nth number from the series. It's an extremely inefficient implementation. It'll fail the release, but only if "real" traffic from the UI is coming in, the [load test](https://github.com/driv/flagger-progressive-delivery/blob/main/clusters/my-cluster/apps/golang-api/canary.yaml#L55) will not detect how slow it is with big numbers. (keep the UI generating requests to see the release fail)
 
 Update the deployment image:
 ```
