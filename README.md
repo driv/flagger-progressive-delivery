@@ -1,4 +1,4 @@
-This repo is an example for the [blog post]() //TODO Add link
+This repo is an example for the [blog post](https://amazinglyabstract.net/blog/2024/08/12/flagger-progressive-delivery.html)
 
 ### Requirements.
 - Docker
